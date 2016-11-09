@@ -1,0 +1,168 @@
+# Copyright (c) 2016 Konstantin.  All right reserved.
+#
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Lesser General Public
+# License as published by the Free Software Foundation; either
+# version 2.1 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+# See the GNU Lesser General Public License for more details.
+#
+# You should have received a copy of the GNU Lesser General Public
+# License along with this library; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+
+# Arduino/ChARM1.2 (Teensy2Style)
+# ---------------------------------------
+menu.usb=USB Type
+#menu.speed=CPU Speed
+menu.rprotect=Program Read Protect
+
+ChARM01.name=Cheap ARM v01 (ChARMbeta)
+ChARM01.vid.0=0x03eb
+ChARM01.pid.0=0x2157
+
+ChARM01.upload.tool=blhost
+ChARM01.upload.protocol=
+ChARM01.upload.maximum_size=64000
+ChARM01.upload.use_1200bps_touch=false
+ChARM01.upload.wait_for_upload_port=false
+ChARM01.upload.native_usb=false
+ChARM01.build.mcu=cortex-m0plus
+ChARM01.build.f_cpu=48000000L
+ChARM01.build.usb_product="MKL27 ChARM_Beta"
+ChARM01.build.usb_manufacturer="KONSGN"
+ChARM01.build.board=ChARM01
+ChARM01.build.core=MKL27
+ChARM01.build.ldscript=MKL27Z64xxx4_flash.ld
+ChARM01.build.variant=ChARM1.2
+ChARM01.build.variant_system_lib=
+ChARM01.build.vid=0x
+ChARM01.build.pid=0x804d
+ChARM01.bootloader.tool=openocd   //rom bootloader
+
+ChARM01.menu.usb.none=None 
+ChARM01.menu.usb.none.build.usbtype=USB_NONE
+ChARM01.menu.usb.cdc=Serial 
+ChARM01.menu.usb.cdc.build.usbtype=USB_SERIAL
+ChARM01.menu.usb.cdc_hid=Serial + rawHID
+ChARM01.menu.usb.cdc_hid.build.usbtype=USB_SERIAL_HID
+#ChARM01.menu.usb.hid.fake_serial=teensy_gateway
+#ChARM01.menu.usb.serialhid=Serial + Keyboard + Mouse + Joystick
+#ChARM01.menu.usb.serialhid.build.usbtype=USB_SERIAL_HID
+#ChARM01.menu.usb.int_disk=Disk(Internal) + Keyboard
+#ChARM01.menu.usb.int_disk.build.usbtype=USB_DISK
+#ChARM01.menu.usb.int_disk.fake_serial=teensy_gateway
+#ChARM01.menu.usb.int_disk.build.elfpatch=mktinyfat
+#ChARM01.menu.usb.sd_disk=Disk(SD Card) + Keyboard
+#ChARM01.menu.usb.sd_disk.build.usbtype=USB_DISK_SDFLASH
+#ChARM01.menu.usb.sd_disk.fake_serial=teensy_gateway
+#ChARM01.menu.usb.midi=MIDI
+#ChARM01.menu.usb.midi.build.usbtype=USB_MIDI
+#ChARM01.menu.usb.midi.fake_serial=teensy_gateway
+ChARM01.menu.usb.rawhid=Raw HID
+ChARM01.menu.usb.rawhid.build.usbtype=USB_RAWHID
+#ChARM01.menu.usb.rawhid.fake_serial=teensy_gateway
+#ChARM01.menu.usb.flightsim=Flight Sim Controls
+#ChARM01.menu.usb.flightsim.build.usbtype=USB_FLIGHTSIM
+#ChARM01.menu.usb.flightsim.fake_serial=teensy_gateway
+
+ChARM01.menu.rprotect.off=Read Not Protected
+ChARM01.menu.rprotect.off.build.rprotect=NPROTECT
+ChARM01.menu.rprotect.on=Read Protected
+ChARM01.menu.rprotect.on.build.rprotect=PROTECT
+
+
+
+#   # Arduino/Genuino Zero (Native USB Port)
+#   # ---------------------------------------
+#   arduino_zero_native.name=Arduino/Genuino Zero (Native USB Port)
+#   arduino_zero_native.vid.0=0x2341
+#   arduino_zero_native.pid.0=0x804d
+#   arduino_zero_native.vid.1=0x2341
+#   arduino_zero_native.pid.1=0x004d
+
+#   arduino_zero_native.vid.2=0x2341
+#   arduino_zero_native.pid.2=0x824d
+#   # If the board is a 2341:824d use 2341:824d for build and set other parameters as well
+#   arduino_zero_native.vid.2.build.vid=0x2341
+#   arduino_zero_native.vid.2.build.pid=0x824d
+#   arduino_zero_native.vid.2.build.usb_product="Genuino Zero"
+#   arduino_zero_native.vid.2.bootloader.file=zero/samd21_sam_ba_genuino.bin
+
+#   arduino_zero_native.vid.3=0x2341
+#   arduino_zero_native.pid.3=0x024d
+#   # If the board is a 2341:024d use 2341:824d for build and set other parameters as well
+#   arduino_zero_native.vid.3.build.vid=0x2341
+#   arduino_zero_native.vid.3.build.pid=0x824d
+#   arduino_zero_native.vid.3.build.usb_product="Genuino Zero"
+#   arduino_zero_native.vid.3.bootloader.file=zero/samd21_sam_ba_genuino.bin
+
+#   arduino_zero_native.upload.tool=bossac
+#   arduino_zero_native.upload.protocol=sam-ba
+#   arduino_zero_native.upload.maximum_size=262144
+#   arduino_zero_native.upload.use_1200bps_touch=true
+#   arduino_zero_native.upload.wait_for_upload_port=true
+#   arduino_zero_native.upload.native_usb=true
+#   arduino_zero_native.build.mcu=cortex-m0plus
+#   arduino_zero_native.build.f_cpu=48000000L
+#   arduino_zero_native.build.usb_product="Arduino Zero"
+#   arduino_zero_native.build.usb_manufacturer="Arduino LLC"
+#   arduino_zero_native.build.board=SAMD_ZERO
+#   arduino_zero_native.build.core=arduino
+#   arduino_zero_native.build.extra_flags=-D__SAMD21G18A__ {build.usb_flags}
+#   arduino_zero_native.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+#   arduino_zero_native.build.openocdscript=openocd_scripts/arduino_zero.cfg
+#   arduino_zero_native.build.variant=arduino_zero
+#   arduino_zero_native.build.variant_system_lib=
+#   arduino_zero_native.build.vid=0x2341
+#   arduino_zero_native.build.pid=0x804d
+#   arduino_zero_native.bootloader.tool=openocd
+#   arduino_zero_native.bootloader.file=zero/samd21_sam_ba.bin
+
+#   # Arduino/Genuino MKR1000
+#   # ---------------------------------------
+#   mkr1000.name=Arduino/Genuino MKR1000
+#   mkr1000.vid.0=0x2341
+#   mkr1000.pid.0=0x804e
+#   mkr1000.vid.1=0x2341
+#   mkr1000.pid.1=0x004e
+
+#   mkr1000.vid.2=0x2341
+#   mkr1000.pid.2=0x824e
+#   # If the board is a 2341:824e use 2341:824e for build and set other parameters as well
+#   mkr1000.vid.2.build.vid=0x2341
+#   mkr1000.vid.2.build.pid=0x824e
+#   mkr1000.vid.2.build.usb_product="Genuino MKR1000"
+#   mkr1000.vid.2.bootloader.file=mkr1000/samd21_sam_ba_genuino_mkr1000.bin
+
+#   mkr1000.vid.3=0x2341
+#   mkr1000.pid.3=0x024e
+#   # If the board is a 2341:024e use 2341:824e for build and set other parameters as well
+#   mkr1000.vid.3.build.vid=0x2341
+#   mkr1000.vid.3.build.pid=0x824e
+#   mkr1000.vid.3.build.usb_product="Genuino MKR1000"
+#   mkr1000.vid.3.bootloader.file=mkr1000/samd21_sam_ba_genuino_mkr1000.bin
+
+#   mkr1000.upload.tool=bossac
+#   mkr1000.upload.protocol=sam-ba
+#   mkr1000.upload.maximum_size=262144
+#   mkr1000.upload.use_1200bps_touch=true
+#   mkr1000.upload.wait_for_upload_port=true
+#   mkr1000.upload.native_usb=true
+#   mkr1000.build.mcu=cortex-m0plus
+#   mkr1000.build.f_cpu=48000000L
+#   mkr1000.build.usb_product="Arduino MKR1000"
+#   mkr1000.build.usb_manufacturer="Arduino LLC"
+#   mkr1000.build.board=SAMD_MKR1000
+#   mkr1000.build.core=arduino
+#   mkr1000.build.extra_flags=-D__SAMD21G18A__ {build.usb_flags}
+#   mkr1000.build.ldscript=linker_scripts/gcc/flash_with_bootloader.ld
+#   mkr1000.build.openocdscript=openocd_scripts/arduino_zero.cfg
+#   mkr1000.build.variant=mkr1000
+#   mkr1000.build.vid=0x2341
+#   mkr1000.build.pid=0x804e
+#   mkr1000.bootloader.tool=openocd
+#   mkr1000.bootloader.file=mkr1000/samd21_sam_ba_arduino_mkr1000.bin

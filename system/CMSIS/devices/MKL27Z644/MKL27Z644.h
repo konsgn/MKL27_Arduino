@@ -5515,6 +5515,10 @@ typedef struct {
 #define USB_CTL_ODDRST_MASK                      (0x2U)
 #define USB_CTL_ODDRST_SHIFT                     (1U)
 #define USB_CTL_ODDRST(x)                        (((uint8_t)(((uint8_t)(x)) << USB_CTL_ODDRST_SHIFT)) & USB_CTL_ODDRST_MASK)
+//added by Konsgn
+#define USB_CTL_RESUME_MASK                      (0x4U)
+#define USB_CTL_RESUME_SHIFT                     (2U)
+#define USB_CTL_RESUME(x)                        (((uint8_t)(((uint8_t)(x)) << USB_CTL_RESUME_SHIFT)) & USB_CTL_RESUME_MASK)
 #define USB_CTL_TXSUSPENDTOKENBUSY_MASK          (0x20U)
 #define USB_CTL_TXSUSPENDTOKENBUSY_SHIFT         (5U)
 #define USB_CTL_TXSUSPENDTOKENBUSY(x)            (((uint8_t)(((uint8_t)(x)) << USB_CTL_TXSUSPENDTOKENBUSY_SHIFT)) & USB_CTL_TXSUSPENDTOKENBUSY_MASK)
