@@ -26,23 +26,30 @@
  * //adapted from https://github.com/payne92/bare-metal-arm
  */
 
+#ifndef __USB_COMMON_H_
+#define __USB_COMMON_H_
+
+
 #ifndef USB_NONE
 
-#ifdef USB_SERIAL
-#include "usb/usb_serial.h"
+
+#ifdef __cplusplus
+extern "C" {
 #endif
 
-#ifdef USB_SERIAL_HID
-#include "usb/usb_serial_hid.h"
+//the Implementation specific header should be already called,
+// it relies on this
+
+#ifndef __USB_IMPLEMENTATION_
+#error "IMPLEMENTATION HEADER NOT CALLED FIRST"
 #endif
 
-#ifdef USB_RAWHID
-#include "usb/usb_rawhid.h"
-#endif
-
+//   #include <MKL27Z644.h>
+#include "Arduino.h"
+//   #include <stdio.h>
 
 //Device USB Stuff
-typedef struct USB_BD{
+typedef struct _USB_BD{
 	union{
 		volatile uint8_t LByte;
 		struct {
@@ -52,7 +59,7 @@ typedef struct USB_BD{
 			uint8_t OWN :1;
 		} BDReadByte;
 		struct {
-			uint8_t NA 		:2;
+			uint8_t NA 	:2;
 			uint8_t STALL 	:1; // when set, create stall condition if BD is read
 			uint8_t DTS 	:1; // when set, allow usbfs to toggle Data bit
 			uint8_t NINC 	:1; // when set, disable DMA add increment for FIFOs
@@ -66,19 +73,48 @@ typedef struct USB_BD{
     uint8_t     *addr; //this is a 32bit pointer to an address.. anywhere in mem  
 }__attribute__((packed)) USB_BD;
 
+typedef struct ep_info{
+	union{
+		volatile uint8_t booleans;
+		struct {
+			uint8_t BANK :1;
+			uint8_t RSVD1:5;
+			uint8_t DATA :1;
+			uint8_t RSVD0:1;
+		};
+	}Bits;
+	uint16_t	buff_size;
+	uint8_t		*data;
+	uint16_t	Len;
+}__attribute__((packed)) ep_info;
+
 
 //USB Protocol USB Stuff
 typedef struct Setup_packet{
 	uint8_t 	bmRequestType;
 	uint8_t  	bRequest;
-	uint16_t 	wValue;
+	union {
+		uint16_t wValue;
+		struct {
+			uint8_t Descriptor_Index;
+			uint8_t Descriptor_Type;
+		};
+	};
+	//   uint16_t 	wValue;
 	uint16_t	wIndex;
 	uint16_t	wLength;
 }__attribute__((packed)) Setup_packet;
 
+
+typedef struct USB_Descriptor_Header{
+	uint8_t bLength;
+	uint8_t bDescriptorType;
+}__attribute__((packed)) Descriptor_Header;
+
 typedef struct Device_Descriptor{
-	uint8_t		bLength;
-	uint8_t		bDescriptorType;
+	Descriptor_Header DHeader;
+	//   uint8_t		bLength;
+	//   uint8_t		bDescriptorType;
 	uint16_t	bcdUSB;
 	uint8_t		bDeviceClass;
 	uint8_t		bDeviceSubClass;
@@ -93,20 +129,22 @@ typedef struct Device_Descriptor{
 	uint8_t		bNumConfigurations;
 }__attribute__((packed)) Device_Descriptor;
 
-typedef struct Configuration_Descriptor{
-	uint8_t		bLength;
-	uint8_t		bDescriptorType;
+typedef struct Configuration_Header{
+	Descriptor_Header DHeader;
+	//   uint8_t		bLength;
+	//   uint8_t		bDescriptorType;
 	uint16_t	wTotalLength;
 	uint8_t		bNumInterfaces;
 	uint8_t		bConfigurationValue;
 	uint8_t		iConfiguration;
 	uint8_t		bmAttributes;
 	uint8_t		bMaxPower;
-}__attribute__((packed)) Configuration_Descriptor;
+}__attribute__((packed)) Configuration_Header;
 
-typedef struct Interface_Descriptor{
-	uint8_t		bLength
-	uint8_t		bDescriptorType;
+typedef struct Interface_Header{
+	Descriptor_Header DHeader;
+	//   uint8_t		bLength
+	//   uint8_t		bDescriptorType;
 	uint8_t		bInterfaceNumber;
 	uint8_t		bAlternateSetting;
 	uint8_t		bNumEndpoints;
@@ -114,11 +152,12 @@ typedef struct Interface_Descriptor{
 	uint8_t		bInterfaceSubClass;
 	uint8_t		bInterfaceProtocol;
 	uint8_t		iInterface;
-}__attribute__((packed)) Interface_Descriptor;
+}__attribute__((packed)) Interface_Header;
 	
 typedef struct Endpoint_Descriptor{
-	uint8_t		bLength
-	uint8_t		bDescriptorType;
+	Descriptor_Header DHeader;
+	//   uint8_t		bLength
+	//   uint8_t		bDescriptorType;
 	uint8_t		bEndpointAddress;
 	uint8_t		bmAttributes;
 	uint16_t	wMaxPacketSize;
@@ -181,28 +220,76 @@ typedef struct Endpoint_Descriptor{
 //bRequest Common Values Enpoint Unique:
 #define SETUP_REQUEST_SYNC_FRAME		0x12
 
-
+//Descriptor Types:
+#define DESCRIPTOR_DEVICE				0x01
+#define DESCRIPTOR_CONFIGURATION		0x02
+#define DESCRIPTOR_STRING				0x03
 
 
 // Buffer descriptor table
 
-//   #define USED_ENDPOINTS 2 // set in the specified header file
 
 #define BD_PER_EP 4 //2 for odd/even ping pong buffs, and 2 for rx/tx
-USB_BD bdt[USED_ENDPOINTS * BD_PER_EP] __attribute__ ((aligned(512)), section(".m_usb_bdt"));
+//   USB_BD bdt[ USED_ENDPOINTS * BD_PER_EP ] __attribute__ ((aligned(512), section("m_usb_bdt")));
 //   static inline USB_BD *bd_rx(int num) { return &bdt[num * BD_PER_EP];}
 //   static inline USB_BD *bd_tx(int num) { return bd_rx(num) + (BD_PER_EP / 2);}
 
 #define ENDPOINT0_BUFF_SIZE 8
+static uint8_t ep0_rx_buffs[2][ENDPOINT0_BUFF_SIZE]; //init even and odd rx buff
+static uint8_t ep0_tx_buff[ENDPOINT0_BUFF_SIZE]; //init even and odd rx buff
+
 //other endpoint sizes defined in device type included header.
 
 
 
-
 // Initialize/enable an endpoint
-void USB_Initialize(void){}
+void USB_Initialize(void);
+
+//Implementation specific references:
+
+//   extern static Device_Descriptor Dev_Desc;
+//   extern Configuration_Descriptor Conf_Desc;
+#define Conf_Desc Configuration_Descriptor
+
+void Implementation_Setup_Handler();
+void Implementation_SConfig_Handler();
+
+void endpoint_handler1(USB_BD* bd_ptr);
+void endpoint_handler2(USB_BD* bd_ptr);
+void endpoint_handler3(USB_BD* bd_ptr);
+void endpoint_handler4(USB_BD* bd_ptr);
+void endpoint_handler5(USB_BD* bd_ptr);
+void endpoint_handler6(USB_BD* bd_ptr);
+void endpoint_handler7(USB_BD* bd_ptr);
+void endpoint_handler8(USB_BD* bd_ptr);
+void endpoint_handler9(USB_BD* bd_ptr);
+void endpoint_handler10(USB_BD* bd_ptr);
+void endpoint_handler11(USB_BD* bd_ptr);
+void endpoint_handler12(USB_BD* bd_ptr);
+void endpoint_handler13(USB_BD* bd_ptr);
+void endpoint_handler14(USB_BD* bd_ptr);
+void endpoint_handler15(USB_BD* bd_ptr);
 
 
-#else
-void USB_Initialize(void){}
+
+#ifdef __cplusplus
+}
 #endif
+
+
+#else  //USB_NONE
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void USB_Initialize(void);
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif //USB_NONE
+
+
+#endif //__USB_COMMON_H_

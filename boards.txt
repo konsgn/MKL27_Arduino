@@ -21,8 +21,6 @@ menu.usb=USB Type
 menu.rprotect=Program Read Protect
 
 ChARM01.name=Cheap ARM v01 (ChARMbeta)
-ChARM01.vid.0=0x03eb
-ChARM01.pid.0=0x2157
 
 ChARM01.upload.tool=blhost
 ChARM01.upload.protocol=
@@ -39,8 +37,6 @@ ChARM01.build.core=MKL27
 ChARM01.build.ldscript=MKL27Z64xxx4_flash.ld
 ChARM01.build.variant=ChARM1.2
 ChARM01.build.variant_system_lib=
-ChARM01.build.vid=0x
-ChARM01.build.pid=0x804d
 ChARM01.bootloader.tool=openocd   //rom bootloader
 
 ChARM01.menu.usb.none=None 

@@ -24,7 +24,7 @@ extern "C" {
 #endif
 
 __attribute__ ((long_call, section (".ramfunc")))
-void banzai() {
+extern void banzai() {
 	// Disable all interrupts
 	__disable_irq();
 

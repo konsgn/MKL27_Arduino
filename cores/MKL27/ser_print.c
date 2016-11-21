@@ -39,6 +39,13 @@ void ser_print_hex(unsigned int n)
 	ser_print_hex1(n);
 }
 
+
+void ser_print_hex16(unsigned int n)
+{
+	ser_print_hex(n >> 8);
+	ser_print_hex(n);
+}
+
 void ser_print_hex32(unsigned int n)
 {
 	ser_print_hex(n >> 24);

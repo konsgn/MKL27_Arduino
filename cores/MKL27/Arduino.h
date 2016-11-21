@@ -58,6 +58,9 @@ extern "C"{
 #define clockCyclesToMicroseconds(a) (((a) * 1000L) / (SystemCoreClock / 1000L))
 #define microsecondsToClockCycles(a) ((a) * (SystemCoreClock / 1000000L))
 
+//Cortex_handler callbacks
+extern void USB_SetHandler(void (*new_usb_isr)(void));
+
 void yield(void);
 
 /* sketch */
@@ -73,99 +76,6 @@ extern void loop( void ) ;
     #define WEAK __attribute__ ((weak))
 #endif
 
-///* Definitions and types for pins */
-//typedef enum _EAnalogChannel
-//{
-  //NO_ADC=-1,
-  //ADC0=0,
-  //ADC1,
-  //ADC2,
-  //ADC3,
-  //ADC4,
-  //ADC5,
-  //ADC6,
-  //ADC7,
-  //ADC8,
-  //ADC9,
-  //ADC10,
-  //ADC11,
-  //ADC12,
-  //ADC13,
-  //ADC14,
-  //ADC15,
-  //DA0
-//} EAnalogChannel ;
-
-//#define ADC_CHANNEL_NUMBER_NONE 0xffffffff
-
-//// Definitions for PWM channels
-//typedef enum _EPWMChannel
-//{
-  //NOT_ON_PWM=-1,
-  //PWM_CH0=0,
-  //PWM_CH1,
-  //PWM_CH2,
-  //PWM_CH3,
-  //PWM_CH4,
-  //PWM_CH5
-//} EPWMChannel ;
-
-//// Definitions for TC channels
-//typedef enum _ETCChannel
-//{
-  //NOT_ON_TIMER=-1,
-  //TPM0_CHA0=0,
-  //TPM0_CHA1,
-  //TPM0_CHA2,
-  //TPM0_CHA3,
-  //TPM0_CHA4,
-  //TPM0_CHA5,
-  //TPM0_CHA6,
-  //TPM0_CHA7,
-  //TPM1_CHA0,
-  //TPM1_CHA1,
-  //TPM2_CHA0,
-  //TPM2_CHA1,
-//} ETCChannel ;
-
-///**
- //* Pin Attributes to be OR-ed
- //*/
-//#define PIN_ATTR_COMBO         (1UL<<0)
-//#define PIN_ATTR_ANALOG        (1UL<<1)
-//#define PIN_ATTR_DIGITAL       (1UL<<2)
-//#define PIN_ATTR_PWM           (1UL<<3)
-//#define PIN_ATTR_TIMER         (1UL<<4)
-
-//#define PIN_STATUS_DIGITAL_INPUT_PULLUP  (0x01)
-//#define PIN_STATUS_DIGITAL_INPUT         (0x02)
-//#define PIN_STATUS_DIGITAL_OUTPUT        (0x03)
-//#define PIN_STATUS_ANALOG                (0x04)
-//#define PIN_STATUS_PWM                   (0x05)
-//#define PIN_STATUS_TIMER                 (0x06)
-//#define PIN_STATUS_SERIAL                (0x07)
-//#define PIN_STATUS_DW_LOW                (0x10)
-//#define PIN_STATUS_DW_HIGH               (0x11)
-
-///* Types used for the tables below */
-//typedef struct _PinDescription
-//{
-  //Pio* pPort ;
-  //uint32_t ulPin ;
-  //uint32_t ulPeripheralId ;
-  //EPioType ulPinType ;
-  //uint32_t ulPinConfiguration ;
-  //uint32_t ulPinAttribute ;
-  //EAnalogChannel ulAnalogChannel ; /* Analog pin in the Arduino context (label on the board) */
-  //EAnalogChannel ulADCChannelNumber ; /* ADC Channel number in the SAM device */
-  //EPWMChannel ulPWMChannel ;
-  //ETCChannel ulTCChannel ;
-//} PinDescription ;
-
-//extern uint8_t g_pinStatus[];
-
-//   /* Pins table to be instanciated into variant.c */
-//   extern const PinDescription g_APinDescription[] ;
 
 // undefine stdlib's abs if encountered
 #ifdef abs
@@ -219,9 +129,21 @@ extern void loop( void ) ;
 
 // USB Device
 #define USB_VID            0x1209 // arduino LLC vid
-#define USB_PID_CHARM      0xC7A0 // ChArm PID C 7=H =Cheap A=arm 0=v1
+#define USB_PID_CHARM      0xB002 // ChArm 
 
-//   #include "USB/USBDesc.h"
+//   #ifdef USB_SERIAL
+//   #include "usb/usb_serial.h"
+//   #endif
+
+//   #ifdef USB_SERIAL_HID
+//   #include "usb/usb_serial_hid.h"
+//   #endif
+
+//   #ifdef USB_RAWHID
+//   #include "usb/usb_rawhid.h"
+//   #endif
+
+//   #include "usb_common.h"
 //   #include "USB/USBCore.h"
 //   #include "USB/USBAPI.h"
 

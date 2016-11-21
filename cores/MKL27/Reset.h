@@ -23,6 +23,7 @@
 extern "C" {
 #endif
 
+void banzai();
 void initiateReset(int ms);
 void tickReset();
 void cancelReset();

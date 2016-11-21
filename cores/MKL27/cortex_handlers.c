@@ -358,7 +358,7 @@ void USB0_Handler(void)
 		usb_isr();
 }
 
-void USB_SetHandler(void (*new_usb_isr)(void))
+extern void USB_SetHandler(void (*new_usb_isr)(void))
 {
 	usb_isr = new_usb_isr;
 }

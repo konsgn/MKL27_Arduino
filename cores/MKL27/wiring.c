@@ -110,6 +110,12 @@ void init( void )
 	//since we made a 32 pin version of the chip, disable VREFOUT so A1 can be used.
 	//   VREF->SC=0x00;
 	//   CMP0->CR1=0x00;
+	
+	//start USB here, as there is a problem colling it from maincpp
+	#ifndef USB_NONE
+		USB_Initialize();
+	#endif
+	
 }
 
 #ifdef __cplusplus
