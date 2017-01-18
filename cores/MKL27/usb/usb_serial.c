@@ -5,8 +5,11 @@
 #include "usb_serial.h"
 #include "usb_common.h"
 
-void Implementation_Setup_Handler(){};
-void Implementation_SConfig_Handler(){};
+void Implementation_Setup_Handler(){
+	
+};
+
+//   void Implementation_SConfig_Handler(){}; //not implemented yet - not needed
 
 void endpoint_handler1(USB_BD *bd_ptr){
 };

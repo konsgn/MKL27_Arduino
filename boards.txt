@@ -14,61 +14,118 @@
 # License along with this library; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-# Arduino/ChARM1.2 (Teensy2Style)
+
+# Arduino/ChARM0.2 (Small format- options)
 # ---------------------------------------
 menu.usb=USB Type
 #menu.speed=CPU Speed
 menu.rprotect=Program Read Protect
 
-ChARM01.name=Cheap ARM v01 (ChARMbeta)
+ChARM03.name=Cheap ARM v03 (ChARMbeta)
 
-ChARM01.upload.tool=blhost
-ChARM01.upload.protocol=
-ChARM01.upload.maximum_size=64000
-ChARM01.upload.use_1200bps_touch=false
-ChARM01.upload.wait_for_upload_port=false
-ChARM01.upload.native_usb=false
-ChARM01.build.mcu=cortex-m0plus
-ChARM01.build.f_cpu=48000000L
-ChARM01.build.usb_product="MKL27 ChARM_Beta"
-ChARM01.build.usb_manufacturer="KONSGN"
-ChARM01.build.board=ChARM01
-ChARM01.build.core=MKL27
-ChARM01.build.ldscript=MKL27Z64xxx4_flash.ld
-ChARM01.build.variant=ChARM1.2
-ChARM01.build.variant_system_lib=
-ChARM01.bootloader.tool=openocd   //rom bootloader
+ChARM03.upload.tool=blhost
+ChARM03.upload.protocol=
+ChARM03.upload.maximum_size=64000
+ChARM03.upload.use_1200bps_touch=false
+ChARM03.upload.wait_for_upload_port=false
+ChARM03.upload.native_usb=false
+ChARM03.build.mcu=cortex-m0plus
+ChARM03.build.f_cpu=48000000L
+ChARM03.build.usb_product="MKL27 ChARM_Beta"
+ChARM03.build.usb_manufacturer="KONSGN"
+ChARM03.build.board=ChARM_0.3
+ChARM03.build.core=MKL27
+ChARM03.build.ldscript=MKL27Z64xxx4_flash.ld
+ChARM03.build.variant=ChARM_0.3
+ChARM03.build.variant_system_lib=
+ChARM03.bootloader.tool=openocd   //rom bootloader
 
-ChARM01.menu.usb.none=None 
-ChARM01.menu.usb.none.build.usbtype=USB_NONE
-ChARM01.menu.usb.cdc=Serial 
-ChARM01.menu.usb.cdc.build.usbtype=USB_SERIAL
-ChARM01.menu.usb.cdc_hid=Serial + rawHID
-ChARM01.menu.usb.cdc_hid.build.usbtype=USB_SERIAL_HID
-#ChARM01.menu.usb.hid.fake_serial=teensy_gateway
-#ChARM01.menu.usb.serialhid=Serial + Keyboard + Mouse + Joystick
-#ChARM01.menu.usb.serialhid.build.usbtype=USB_SERIAL_HID
-#ChARM01.menu.usb.int_disk=Disk(Internal) + Keyboard
-#ChARM01.menu.usb.int_disk.build.usbtype=USB_DISK
-#ChARM01.menu.usb.int_disk.fake_serial=teensy_gateway
-#ChARM01.menu.usb.int_disk.build.elfpatch=mktinyfat
-#ChARM01.menu.usb.sd_disk=Disk(SD Card) + Keyboard
-#ChARM01.menu.usb.sd_disk.build.usbtype=USB_DISK_SDFLASH
-#ChARM01.menu.usb.sd_disk.fake_serial=teensy_gateway
-#ChARM01.menu.usb.midi=MIDI
-#ChARM01.menu.usb.midi.build.usbtype=USB_MIDI
-#ChARM01.menu.usb.midi.fake_serial=teensy_gateway
-ChARM01.menu.usb.rawhid=Raw HID
-ChARM01.menu.usb.rawhid.build.usbtype=USB_RAWHID
-#ChARM01.menu.usb.rawhid.fake_serial=teensy_gateway
-#ChARM01.menu.usb.flightsim=Flight Sim Controls
-#ChARM01.menu.usb.flightsim.build.usbtype=USB_FLIGHTSIM
-#ChARM01.menu.usb.flightsim.fake_serial=teensy_gateway
+ChARM03.menu.usb.none=None 
+ChARM03.menu.usb.none.build.usbtype=USB_NONE
+ChARM03.menu.usb.cdc=Serial 
+ChARM03.menu.usb.cdc.build.usbtype=USB_SERIAL
+ChARM03.menu.usb.cdc_hid=Serial + rawHID
+ChARM03.menu.usb.cdc_hid.build.usbtype=USB_SERIAL_HID
+#ChARM03.menu.usb.hid.fake_serial=teensy_gateway
+#ChARM03.menu.usb.serialhid=Serial + Keyboard + Mouse + Joystick
+#ChARM03.menu.usb.serialhid.build.usbtype=USB_SERIAL_HID
+#ChARM03.menu.usb.int_disk=Disk(Internal) + Keyboard
+#ChARM03.menu.usb.int_disk.build.usbtype=USB_DISK
+#ChARM03.menu.usb.int_disk.fake_serial=teensy_gateway
+#ChARM03.menu.usb.int_disk.build.elfpatch=mktinyfat
+#ChARM03.menu.usb.sd_disk=Disk(SD Card) + Keyboard
+#ChARM03.menu.usb.sd_disk.build.usbtype=USB_DISK_SDFLASH
+#ChARM03.menu.usb.sd_disk.fake_serial=teensy_gateway
+#ChARM03.menu.usb.midi=MIDI
+#ChARM03.menu.usb.midi.build.usbtype=USB_MIDI
+#ChARM03.menu.usb.midi.fake_serial=teensy_gateway
+ChARM03.menu.usb.rawhid=Raw HID
+ChARM03.menu.usb.rawhid.build.usbtype=USB_RAWHID
+#ChARM03.menu.usb.rawhid.fake_serial=teensy_gateway
+#ChARM03.menu.usb.flightsim=Flight Sim Controls
+#ChARM03.menu.usb.flightsim.build.usbtype=USB_FLIGHTSIM
+#ChARM03.menu.usb.flightsim.fake_serial=teensy_gateway
 
-ChARM01.menu.rprotect.off=Read Not Protected
-ChARM01.menu.rprotect.off.build.rprotect=NPROTECT
-ChARM01.menu.rprotect.on=Read Protected
-ChARM01.menu.rprotect.on.build.rprotect=PROTECT
+ChARM03.menu.rprotect.off=Read Not Protected
+ChARM03.menu.rprotect.off.build.rprotect=NPROTECT
+ChARM03.menu.rprotect.on=Read Protected
+ChARM03.menu.rprotect.on.build.rprotect=PROTECT
+
+# Arduino/ChARM0.2 (Teensy2Style)
+# ---------------------------------------
+menu.usb=USB Type
+#menu.speed=CPU Speed
+menu.rprotect=Program Read Protect
+
+ChARM02.name=Cheap ARM v02 (ChARMbeta)
+
+ChARM02.upload.tool=blhost
+ChARM02.upload.protocol=
+ChARM02.upload.maximum_size=64000
+ChARM02.upload.use_1200bps_touch=false
+ChARM02.upload.wait_for_upload_port=false
+ChARM02.upload.native_usb=false
+ChARM02.build.mcu=cortex-m0plus
+ChARM02.build.f_cpu=48000000L
+ChARM02.build.usb_product="MKL27 ChARM_Beta"
+ChARM02.build.usb_manufacturer="KONSGN"
+ChARM02.build.board=ChARM_0.2
+ChARM02.build.core=MKL27
+ChARM02.build.ldscript=MKL27Z64xxx4_flash.ld
+ChARM02.build.variant=ChARM_0.2
+ChARM02.build.variant_system_lib=
+ChARM02.bootloader.tool=openocd   //rom bootloader
+
+ChARM02.menu.usb.none=None 
+ChARM02.menu.usb.none.build.usbtype=USB_NONE
+ChARM02.menu.usb.cdc=Serial 
+ChARM02.menu.usb.cdc.build.usbtype=USB_SERIAL
+ChARM02.menu.usb.cdc_hid=Serial + rawHID
+ChARM02.menu.usb.cdc_hid.build.usbtype=USB_SERIAL_HID
+#ChARM02.menu.usb.hid.fake_serial=teensy_gateway
+#ChARM02.menu.usb.serialhid=Serial + Keyboard + Mouse + Joystick
+#ChARM02.menu.usb.serialhid.build.usbtype=USB_SERIAL_HID
+#ChARM02.menu.usb.int_disk=Disk(Internal) + Keyboard
+#ChARM02.menu.usb.int_disk.build.usbtype=USB_DISK
+#ChARM02.menu.usb.int_disk.fake_serial=teensy_gateway
+#ChARM02.menu.usb.int_disk.build.elfpatch=mktinyfat
+#ChARM02.menu.usb.sd_disk=Disk(SD Card) + Keyboard
+#ChARM02.menu.usb.sd_disk.build.usbtype=USB_DISK_SDFLASH
+#ChARM02.menu.usb.sd_disk.fake_serial=teensy_gateway
+#ChARM02.menu.usb.midi=MIDI
+#ChARM02.menu.usb.midi.build.usbtype=USB_MIDI
+#ChARM02.menu.usb.midi.fake_serial=teensy_gateway
+ChARM02.menu.usb.rawhid=Raw HID
+ChARM02.menu.usb.rawhid.build.usbtype=USB_RAWHID
+#ChARM02.menu.usb.rawhid.fake_serial=teensy_gateway
+#ChARM02.menu.usb.flightsim=Flight Sim Controls
+#ChARM02.menu.usb.flightsim.build.usbtype=USB_FLIGHTSIM
+#ChARM02.menu.usb.flightsim.fake_serial=teensy_gateway
+
+ChARM02.menu.rprotect.off=Read Not Protected
+ChARM02.menu.rprotect.off.build.rprotect=NPROTECT
+ChARM02.menu.rprotect.on=Read Protected
+ChARM02.menu.rprotect.on.build.rprotect=PROTECT
 
 
 

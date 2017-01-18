@@ -182,6 +182,24 @@ static inline void ep0_standard_device(void){
 						usb_start_tx(0,&Conf_Desc,(Setup->wLength < sizeof(Configuration_Descriptor))?Setup->wLength:sizeof(Configuration_Descriptor));
 						break;
 					case DESCRIPTOR_STRING:
+						switch(Setup->Descriptor_Index){
+							case 0:
+								usb_start_tx(0,&String0,(Setup->wLength < String0_size)?Setup->wLength:String0_size);
+								break;
+							#ifdef MANUFACTURER_STR
+							case 1:
+								usb_start_tx(0,&String1,(Setup->wLength < String1_size)?Setup->wLength:String1_size);
+								break;
+							#endif
+							#ifdef PRODUCT_STR
+							case 2:
+								usb_start_tx(0,&String2,(Setup->wLength < String2_size)?Setup->wLength:String2_size);
+								break;
+							#endif
+							default:
+								usb_start_tx(0,&Empty_String_Desc,(Setup->wLength < Empty_String_Desc_size)?Setup->wLength:Empty_String_Desc_size);
+								break;
+							}
 						break;
 					default:
 						break;

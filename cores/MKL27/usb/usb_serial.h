@@ -28,7 +28,6 @@
 
 #define Config_size sizeof(Configuration_Descriptor)
 
-
 static ep_info ep_information[USED_ENDPOINTS];
 
 static Device_Descriptor Dev_Desc= {
@@ -132,6 +131,19 @@ static struct {
 	.E_TX_Descriptor.bmAttributes=0x02,		// bmAttributes;
 	.E_TX_Descriptor.wMaxPacketSize=CDC_TX_SIZE,	// wMaxPacketSize;
 	.E_TX_Descriptor.bInterval=0x40		// bInterval //64;
+};
+
+#define String1_size 14
+static USB_String_Desc String1 ={
+	{14,0x03},
+	MANUFACTURER_STR
+};
+
+
+#define String2_size 26
+static USB_String_Desc String2 ={
+	{26,0x03},
+	PRODUCT_STR
 };
 
 //

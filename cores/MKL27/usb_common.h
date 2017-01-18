@@ -165,6 +165,24 @@ typedef struct Endpoint_Descriptor{
 }__attribute__((packed)) Endpoint_Descriptor;
 
 
+typedef struct USB_String_Desc{
+	Descriptor_Header DHeader;
+	uint16_t string[];
+}USB_String_Desc;
+
+#define String0_size 4
+static USB_String_Desc String0 ={
+	{0x04,0x03},
+	{0x0409}
+};
+
+#define Empty_String_Desc_size 2
+static USB_String_Desc Empty_String_Desc ={
+	{0x02,0x03}
+};
+	
+
+
 //PID type defines 
 //Group Token
 #define PID_OUT_TOKEN 		0x01
@@ -252,7 +270,7 @@ void USB_Initialize(void);
 #define Conf_Desc Configuration_Descriptor
 
 void Implementation_Setup_Handler();
-void Implementation_SConfig_Handler();
+//   void Implementation_SConfig_Handler(); //not implemented yet - not needed
 
 void endpoint_handler1(USB_BD* bd_ptr);
 void endpoint_handler2(USB_BD* bd_ptr);
