@@ -19,6 +19,7 @@
 #include "Arduino.h"
 //   #include "wiring_private.h"
 #include "ser_print.h"
+#include "wiring_analog.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -116,6 +117,18 @@ static inline uint32_t mapResolution(uint32_t value, uint32_t from, uint32_t to)
   //   }
 //   }
 
+//function to help with PWM:
+void PWM_TPM(uint8_t tim,uint8_t ch,uint16_t value) {
+	TPM_BASE_PTR[tim]->SC=0x0000; //disable TPM 
+	TPM_BASE_PTR[tim]->CNT = 0; 
+	TPM_BASE_PTR[tim]->MOD = ((0xFFFF)^((uint16_t)0x8000>>(A_Write_Resolution-1))); //allow for max value to be 100% pwm
+	TPM_BASE_PTR[tim]->CONTROLS[ch].CnSC = 0xA8; // edge high PWM
+	TPM_BASE_PTR[tim]->CONTROLS[ch].CnV  = (value << (16-A_Write_Resolution));
+	TPM_BASE_PTR[tim]->SC |= 0x08; //enable TPM
+};
+				
+
+
 uint32_t analogRead(uint32_t pin)
 {
 	uint32_t valueRead = 0;
@@ -168,12 +181,144 @@ uint16_t analogReadInternal(uint8_t channel)
 	return valueRead;
 }
 
-//   // Right now, PWM output only works on the pins with
-//   // hardware support.  These are defined in the appropriate
-//   // pins_*.c file.  For the rest of the pins, we default
-//   // to digital output.
-//   void analogWrite(uint32_t pin, uint32_t value)
-//   {
+// Right now, PWM output only works on the pins with
+// hardware support.  
+// For the rest of the pins, we default to digital output.
+void analogWrite(uint32_t pin, uint32_t value)
+{
+	// Retrieve port and pin information 
+	uint8_t prt= digitalPinToPort(pin);
+	PORT_Type *Port = PORT_PTRS[prt];
+	uint8_t bit= digitalPinToBit(pin);
+	
+	switch(prt){
+		case PrtA:
+			switch(bit){
+				case 0:
+					//alt3 tpm0 ch5
+					//PWM_TPM(tim,ch)
+					//TPM_BASE_PTRS[tim]->CONTROLS[ch].CnV  = (value << (16-A_Write_Resolution))
+					PWM_TPM(0,5,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				case 1:
+					//alt3 tpm2 ch0
+					PWM_TPM(2,0,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				case 2:
+					//alt3 tpm2 ch1
+					PWM_TPM(2,1,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				case 3:
+					//alt3 tpm0 ch0
+					PWM_TPM(0,0,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				case 4:
+					//alt3 tpm0 ch1
+					PWM_TPM(0,1,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				default:
+					break;
+			}
+			break;
+		case PrtB:
+			switch(bit){
+				case 0:
+					//alt3 tpm1 ch0
+					PWM_TPM(1,0,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				case 1:
+					//alt3 tpm1 ch1
+					PWM_TPM(1,1,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				default:
+					break;
+			}
+			break;
+		case PrtC:
+			switch(bit){
+				case 1:
+					//alt4 tpm0 ch0
+					PWM_TPM(0,0,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000400;
+					break;
+				case 2:
+					//alt4 tpm0 ch1
+					PWM_TPM(0,1,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000400;
+					break;
+				case 3:
+					//alt4 tpm0 ch2
+					PWM_TPM(0,2,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000400;
+					break;
+				case 4:
+					//alt4 tpm0 ch3
+					PWM_TPM(0,3,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000400;
+					break;
+				default:
+					break;
+			}
+			break;
+		case PrtD:
+			switch(bit){
+				case 4:
+					//alt4 tpm0 ch4
+					PWM_TPM(0,4,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000400;
+					break;
+				case 5:
+					//alt4 tpm0 ch5
+					PWM_TPM(0,5,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000400;
+					break;
+				default:
+					break;
+			}
+			break;
+		case PrtE:
+			switch(bit){
+				case 30:
+					//alt3 tpm0 ch3
+					PWM_TPM(0,3,value);
+					Port->PCR[bit]&=0xFFFFF8FF;
+					Port->PCR[bit]|=0x00000300;
+					break;
+				default:
+					break;
+			}
+			break;
+		default:
+			break;
+	}
+}
+
+//   #ifdef TimerX_Conflict
+	//   #error TimerX_Conflict
+//   #endif
+//   #define TimerX_Conflict "Timer X is already used by PWM funtionality"
+	
+	
   //   PinDescription pinDesc = g_APinDescription[pin];
   //   uint32_t attr = pinDesc.ulPinAttribute;
 

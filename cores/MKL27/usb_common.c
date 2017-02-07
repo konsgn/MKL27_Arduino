@@ -45,10 +45,6 @@
 
 USB_BD bdt[ USED_ENDPOINTS * BD_PER_EP ] __attribute__ ((aligned(512), section("m_usb_bdt")));
 
-// Pointer to buffer of last rx'd setup...hopufully still the setup data when 
-// referenced. only really needed for addr change.
-static Setup_packet *Setup = NULL;
-
 static inline ep_info* bdptr_to_epptr(USB_BD *bdptr){
 	return (ep_info*)&ep_information[((uint32_t)bdptr>>5&0x000F)];
 }
@@ -147,7 +143,7 @@ static void usb_start_tx(uint8_t num, uint8_t *Data, uint16_t len){
 }
 
 static inline void ep0_standard_device(void){
-	if(!(Setup->bmRequestType&0x80)){ //It's a outgoing transaction
+	if(!(Setup->bmRequestType&0x80)){ //It's a incoming data transaction
 		switch(Setup->bRequest){
 			case SETUP_REQUEST_CLEAR_FEATURE:
 				break;
@@ -161,12 +157,12 @@ static inline void ep0_standard_device(void){
 			case SETUP_REQUEST_SET_DESCRIPTOR:
 				break;
 			case SETUP_REQUEST_SET_CONFIGURATION:
-				//   Implementation_SConfig_Handler(Setup->wValue);
+				Implementation_SetConfig_Handler(Setup->wValue);
 				usb_tx(&bdt[0],0,0);
 				break;
 		}
 	}
-	else{ //It's an incoming transaction
+	else{ //It's an outgoing data transaction request
 		switch(Setup->bRequest){
 			case SETUP_REQUEST_GET_STATUS:
 				ep0_tx_buff[0]= 0x00;

@@ -9,7 +9,7 @@
 #include <MKL27Z644.h>
 #include <stdio.h>
 
-// USB Serial implementation, uses CDC-ACM.
+// USB Serial implementation for usb_common.c functionality, uses CDC-ACM.
 
 #define USED_ENDPOINTS 3 //including USB EP0
 #define VENDOR_ID  0x1209
@@ -146,11 +146,40 @@ static USB_String_Desc String2 ={
 	PRODUCT_STR
 };
 
+
+
+
+// USB Serial implementation for usb_serial.c functionality
+#define CDC_SET_LINE_CODING			0x20
+#define CDC_GET_LINE_CODING			0x21
+#define CDC_SET_CONTROL_LINE_STATE	0x22
+#define CDC_SEND_BREAK				0x23
+
+#define CDC_LINESTATE_DTR			0x01 // Data Terminal Ready
+#define CDC_LINESTATE_RTS			0x02 // Ready to Send
+
+typedef struct {
+	uint32_t dwDTERate;
+	uint8_t bCharFormat;
+	uint8_t bParityType;
+	uint8_t bDataBits;
+	uint8_t lineState;
+} LineInfo;
+
 //
 //Things to implement:
-//extern void Implementation_Setup_Handler();
-//extern void Implementation_SConfig_Handler();
+extern void Implementation_Setup_Handler();
+extern void Implementation_SetConfig_Handler();
 //
+
+// Data buffer Size for staring incoming and outgoing data
+// It's easier to implement and understand than dynamic packet allocation
+#define  RX_Buffer_Count 2
+#define  RX_Buffer_Size  (RX_Buffer_Count * CDC_RX_SIZE)
+#define  TX_Buffer_Count 2
+#define  TX_Buffer_Size  (TX_Buffer_Count * CDC_TX_SIZE)
+
+
 
 
 #endif //USB_SERIAL

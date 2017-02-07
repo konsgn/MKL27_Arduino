@@ -105,6 +105,9 @@ typedef struct Setup_packet{
 	uint16_t	wLength;
 }__attribute__((packed)) Setup_packet;
 
+// Pointer to buffer of last rx'd setup...hopufully still the setup data when 
+// referenced. only really needed for addr change and custom functions.
+static Setup_packet *Setup = NULL;
 
 typedef struct USB_Descriptor_Header{
 	uint8_t bLength;
@@ -270,7 +273,7 @@ void USB_Initialize(void);
 #define Conf_Desc Configuration_Descriptor
 
 void Implementation_Setup_Handler();
-//   void Implementation_SConfig_Handler(); //not implemented yet - not needed
+void Implementation_SetConfig_Handler(); //not implemented yet - not needed
 
 void endpoint_handler1(USB_BD* bd_ptr);
 void endpoint_handler2(USB_BD* bd_ptr);

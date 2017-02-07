@@ -20,6 +20,9 @@ static PORT_Type* PORT_PTRS[] = PORT_BASE_PTRS;
 #define PrtE 4
 //   }
 
+//Timer values and their locations for PWM functionality
+ 
+
 struct pin_and_config_table {
 	uint8_t regandpinmask; //Upper 3 bits represent port as ordered in GPIO_PTRS, lower 5 bits show which pin 0-31
 	volatile uint32_t * config;

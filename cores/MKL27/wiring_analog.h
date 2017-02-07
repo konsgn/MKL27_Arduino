@@ -20,6 +20,10 @@
 
 #include <stdint.h>
 
+#include "Arduino.h"
+#include <MKL27Z644.h>
+#include "variant.h"
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -40,6 +44,23 @@ extern "C" {
 #define _10BITRES 2U   
 #define _12BITRES 1U  
 #define _16BITRES 3U   
+
+// Defines to be set as each Timer Functional is called.
+// These defines will allow errors to be caught in case of conflicting
+// Timer uses by pwm and library functionality
+
+// Test for Conflict and set in use define:
+//   #ifdef TimerX_Conflict
+	//   #error TimerX_Conflict
+//   #endif
+//   #define TimerX_Conflict "Timer X is already used by PWM funtionality"
+
+//define for accepting pwm values for analog write function. 
+static uint8_t A_Write_Resolution = 8;
+static TPM_Type* TPM_BASE_PTR[] = TPM_BASE_PTRS;
+
+
+extern void analogWrite( uint32_t ulPin, uint32_t ulValue ) ;
 
 //   /*
  //   * \brief Configures the reference voltage used for analog input (i.e. the value used as the top of the input range).
